@@ -12,10 +12,11 @@ require 'mina/puma'
 set :user, 'ubuntu'
 set :application_name, 'demo-aws'
 set :domain, 'ec2-54-162-174-251.compute-1.amazonaws.com'
-set :identity_file, 'goal.pem' # ec2 instance key file
+set :identity_file, '/home/manish/goals/2018-q4/goal.pem' # ec2 instance key file
 set :deploy_to, '/var/www/demo-aws.com'
-set :repository, 'git://https://github.com/meta-manish-sharma/aws-demo.git'
+set :repository, 'https://github.com/meta-manish-sharma/aws-demo.git'
 set :branch, 'master'
+set :rvm_use_path, '/home/ubuntu/.rvm/bin/rvm'
 
 # Optional settings:
 #   set :user, 'foobar'          # Username in the server to SSH to.
@@ -36,7 +37,7 @@ task :remote_environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  invoke :'rvm:use', 'ruby-2.3.6p384@default'
+  invoke :'rvm:use', 'ruby-2.3.6'
 end
 
 # Put any custom commands you need to run at setup
@@ -58,7 +59,7 @@ task :deploy do
     # instance of your project.
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
-    invoke :'rvm:load_env_vars'
+    # invoke :'rvm:load_env_vars'
     invoke :'bundle:install'
     # invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
